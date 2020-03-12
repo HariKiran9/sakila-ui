@@ -1,0 +1,24 @@
+<!-- <div class="row" *ngFor="let staff of staff; let i = index">
+  {{i}} - {{staff.staffId}} - {{staff.firstName}} - {{staff.lastName}} - {{staff.email}} - {{staff.active}} -
+  {{staff.userName}} - {{staff.password}} - {{staff.lastUpdate}} - {{staff.address.addressId}} - {{staff.address.city.city}}
+</div> -->
+
+<a routerLinkActive="active" routerLink="createStaff"> Create Staff </a>
+
+<ejs-grid [dataSource]='staff' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
+  <e-columns>
+    <e-column field='staffId' headerText='Rental ID' textAlign='Left'></e-column>
+    <e-column field='firstName' headerText='First Name' textAlign='Left'></e-column>
+    <e-column field='lastName' headerText='Last Name' textAlign='Left'></e-column>
+    <e-column field='email' headerText='eMail' textAlign='Left'></e-column>
+    <e-column field='active' headerText='Active' textAlign='Left'></e-column>
+    <e-column field='userName' headerText='User Name' textAlign='Left'></e-column>
+    <e-column field='password' headerText='Password' textAlign='Left'></e-column>
+    <e-column field='address.address' headerText='Address' textAlign='Left'></e-column>
+    <e-column field='address.district' headerText='District' textAlign='Left'></e-column>
+    <e-column field='address.city.city' headerText='City' textAlign='Left'></e-column>
+    <e-column field='address.city.country.country' headerText='Country' textAlign='Left'></e-column>
+    <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid>

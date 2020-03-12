@@ -1,0 +1,34 @@
+<p>
+  city works! !!!!!!!!!!!!!
+</p>
+
+<!-- {{cities}} -->
+
+
+<!-- <div class="row" *ngFor="let city of cities; let i = index">
+  {{i}} - {{city.city}} - {{city.cityId}} - {{city.lastUpdate}}
+</div> -->
+
+<ejs-grid [dataSource]='cities' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true' [filterSettings]='filterSettings' 
+[pageSettings]='initialPage'  [toolbar]='toolbar'>
+  <e-columns>
+      <e-column field='cityId' headerText='City ID' textAlign='Left'></e-column>
+      <e-column field='city' headerText='City Name' textAlign='Left'></e-column>
+      <e-column field='country.country' headerText='Country' textAlign='Left'></e-column>
+      <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid> 
+
+
+<!-- <table>
+  <thead>
+    <th># Policy ID</th>
+    <th>Policy name</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let policy of policies">
+      <td>{{policy.id}}</td>
+      <td>{{policy.name}}</td>
+    </tr>
+  </tbody>
+</table> -->

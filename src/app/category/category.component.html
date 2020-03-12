@@ -1,0 +1,33 @@
+<a routerLinkActive="active" routerLink="create"> Create Category </a>
+
+<!-- <ejs-grid [dataSource]='category' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
+  <e-columns>
+    <e-column field='categoryId' headerText='Category ID' textAlign='Left'></e-column>
+    <e-column field='name' headerText='Category Name' textAlign='Left'></e-column>
+    <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid> -->
+
+<br /> <br /> <br />
+
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr class="bg-primary">
+        <th> Category ID </th>
+        <th> Category Name </th>
+        <th> Last Upate </th>
+        <th> Action </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let city of category; let i = index">
+        <td> {{city.categoryId}} </td>
+        <td> {{city.name}} </td>
+        <td> {{city.lastUpdate}} </td>
+        <td> <button class="btn btn-primary" (click)="editCategory(city.categoryId)"> Edit </button> </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

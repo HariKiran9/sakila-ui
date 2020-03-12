@@ -1,0 +1,25 @@
+<p>
+  rental works!
+</p>
+
+<ejs-grid [dataSource]='rentals' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
+  <e-columns>
+    <e-column field='rentalId' headerText='Rental ID' textAlign='Left'></e-column>
+    <e-column field='inventory.film.title' headerText='Movie Name' textAlign='Left'></e-column>
+    <e-column field='inventory.film.description' headerText='Description' textAlign='Left'></e-column>
+    <e-column field='inventory.film.language.name' headerText='Language' textAlign='Left'></e-column>
+
+    <e-column field='customer.firstName' headerText='Customer First Name' textAlign='Left'></e-column>
+    <e-column field='customer.lastName' headerText='Customer Last Name' textAlign='Left'></e-column>
+
+    <e-column field='inventory.store.staff.address.address' headerText='Address' textAlign='Left'></e-column>
+    <e-column field='inventory.store.staff.address.district' headerText='District' textAlign='Left'></e-column>
+    <e-column field='inventory.store.staff.address.city.city' headerText='City' textAlign='Left'></e-column>
+    <e-column field='inventory.store.staff.address.city.country.country' headerText='Country' textAlign='Left'></e-column>
+
+    <e-column field='rentalDate' headerText='Rental Date' textAlign='Left'></e-column>
+    <e-column field='returnDate' headerText='Return Date' textAlign='Left'></e-column>
+    <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid>

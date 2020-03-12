@@ -1,0 +1,24 @@
+<p>
+  film works!
+</p>
+
+
+<!-- <div class="row" *ngFor="let film of films; let i = index">
+  {{i}} - {{film.filmId}} - {{film.title}} - {{film.description}} - {{film.language.name}} - {{film.rating}} -
+  {{film.specialFeatures}} - {{film.lastUpdate}}
+</div> -->
+
+<ejs-grid [dataSource]='films' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
+  <e-columns>
+    <e-column field='filmId' headerText='Film ID' textAlign='Left'></e-column>
+    <e-column field='title' headerText='Title' textAlign='Left'></e-column>
+    <e-column field='description' headerText='Description' textAlign='Left'></e-column>
+    <e-column field='rating' headerText='Rating' textAlign='Left'></e-column>
+
+    <e-column field='language.name' headerText='Language' textAlign='Left'></e-column>
+    <e-column field='specialFeatures' headerText='Features' textAlign='Left'></e-column>
+    
+    <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid>

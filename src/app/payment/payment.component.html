@@ -1,0 +1,31 @@
+<p>
+  payment works!
+</p>
+
+<ejs-grid [dataSource]='payments' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
+  <e-columns>
+    <e-column field='paymentId' headerText='Payment ID' textAlign='Left'></e-column>
+    <e-column field='customer.firstName' headerText='Customer First Name' textAlign='Left'></e-column>
+    <e-column field='customer.lastName' headerText='Customer Last Name' textAlign='Left'></e-column>
+
+    <e-column field='staff.firstName' headerText='Staff First Name' textAlign='Left'></e-column>
+    <e-column field='staff.lastName' headerText='Staff Last Name' textAlign='Left'></e-column>
+    <e-column field='staff.address.address' headerText='Store Address' textAlign='Left'></e-column>
+    <e-column field='staff.address.district' headerText='District' textAlign='Left'></e-column>
+    <e-column field='staff.address.city.city' headerText='City' textAlign='Left'></e-column>
+    <e-column field='staff.address.city.country.country' headerText='Country' textAlign='Left'></e-column>
+
+
+    <e-column field='rental.rentalDate' headerText='Rental Date' textAlign='Left'></e-column>
+    <e-column field='rental.inventory.film.title' headerText='Movie Title' textAlign='Left'></e-column>
+    <e-column field='rental.inventory.film.language.name' headerText='Language' textAlign='Left'></e-column>
+
+    <e-column field='rental.staff.firstName' headerText='Staff First Name' textAlign='Left'></e-column>
+    <e-column field='rental.staff.lastName' headerText='Staff Last Name' textAlign='Left'></e-column>
+
+    <e-column field='amount' headerText='Amount' textAlign='Left'></e-column>
+    <e-column field='paymentDate' headerText='Payment Date' textAlign='Left'></e-column>
+    <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid>

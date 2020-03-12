@@ -1,0 +1,31 @@
+<p>
+  customer works!
+</p>
+
+
+<!-- <div class="row" *ngFor="let customer of customers; let i = index">
+  {{i}} - {{customer.customerId}} - {{customer.firstName}} - {{customer.lastName}} -
+  {{customer.store.staff.firstName}} - {{customer.store.staff.lastName}} -
+  {{customer.address.address}} - {{customer.address.district}} -
+  {{customer.address.city.city}} - {{customer.address.city.country.country}} - {{customer.lastUpdate}}
+</div> -->
+
+
+<ejs-grid [dataSource]='customers' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
+  <e-columns>
+    <e-column field='customerId' headerText='Rental ID' textAlign='Left'></e-column>
+    <e-column field='firstName' headerText='First Name' textAlign='Left'></e-column>
+    <e-column field='lastName' headerText='Last Name' textAlign='Left'></e-column>
+
+    <e-column field='store.staff.firstName' headerText='Staff First Name' textAlign='Left'></e-column>
+    <e-column field='store.staff.lastName' headerText='Staff Last Name' textAlign='Left'></e-column>
+
+    <e-column field='address.address' headerText='Address' textAlign='Left'></e-column>
+    <e-column field='address.district' headerText='District' textAlign='Left'></e-column>
+    <e-column field='address.city.city' headerText='City' textAlign='Left'></e-column>
+    <e-column field='address.city.country.country' headerText='Country' textAlign='Left'></e-column>
+    
+    <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid>

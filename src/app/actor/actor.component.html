@@ -1,0 +1,18 @@
+<p>
+  actor works!
+</p>
+
+
+<!-- <div class="row" *ngFor="let actor of actors; let i = index">
+  {{i}} - {{actor.actorId}} - {{actor.firstName}} - {{actor.lastName}} - {{actor.lastUpdate}}
+</div> -->
+
+
+<ejs-grid [dataSource]='actors' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true' [filterSettings]='filterSettings'>
+  <e-columns>
+      <e-column field='actorId' headerText='Actor ID' textAlign='Left'></e-column>
+      <e-column field='firstName' headerText='First Name' textAlign='Left'></e-column>
+      <e-column field='lastName' headerText='Last Name' textAlign='Left' format='c2'></e-column>
+      <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid> 

@@ -1,0 +1,31 @@
+<p>
+  inventory works!
+</p>
+
+<!-- <div class="row" *ngFor="let inventory of inventories; let i = index">
+  {{i}} - {{inventory.inventoryId}} - {{inventory.film.title}} - {{inventory.film.description}} -
+  {{inventory.store.staff.firstName}} - {{inventory.store.staff.lastName}} -
+  {{inventory.store.address.address}} - {{inventory.store.address.district}} -
+  {{inventory.store.address.city.city}} - {{inventory.store.address.city.country.country}} - {{inventory.lastUpdate}}
+</div> -->
+
+
+
+
+<ejs-grid [dataSource]='inventories' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
+  <e-columns>
+    <e-column field='inventoryId' headerText='Inventory ID' textAlign='Left'></e-column>
+    <e-column field='film.title' headerText='Movie Name' textAlign='Left'></e-column>
+    <e-column field='film.description' headerText='Description' textAlign='Left'></e-column>
+
+    <e-column field='store.staff.firstName' headerText='Staff First Name' textAlign='Left'></e-column>
+    <e-column field='store.staff.lastName' headerText='Staff Last Name' textAlign='Left'></e-column>
+    <e-column field='store.address.address' headerText='Staff Last Name' textAlign='Left'></e-column>
+    <e-column field='store.address.district' headerText='District' textAlign='Left'></e-column>
+    <e-column field='store.address.city.city' headerText='City' textAlign='Left'></e-column>
+    <e-column field='store.address.city.country.country' headerText='Country' textAlign='Left'></e-column>
+
+    <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+  </e-columns>
+</ejs-grid>
