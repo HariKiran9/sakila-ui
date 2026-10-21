@@ -9,15 +9,15 @@
   {{i}} - {{city.city}} - {{city.cityId}} - {{city.lastUpdate}}
 </div> -->
 
-<ejs-grid [dataSource]='cities' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true' [filterSettings]='filterSettings' 
-[pageSettings]='initialPage'  [toolbar]='toolbar'>
+<!--<ejs-grid [dataSource]='cities' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+  [filterSettings]='filtersettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
   <e-columns>
-      <e-column field='cityId' headerText='City ID' textAlign='Left'></e-column>
-      <e-column field='city' headerText='City Name' textAlign='Left'></e-column>
-      <e-column field='country.country' headerText='Country' textAlign='Left'></e-column>
-      <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
+    <e-column field='cityId' headerText='City ID' textAlign='Left'></e-column>
+    <e-column field='city' headerText='City Name' textAlign='Left'></e-column>
+    <e-column field='country.country' headerText='Country' textAlign='Left'></e-column>
+    <e-column field='lastUpdate' headerText='Last Update' textAlign='Left'></e-column>
   </e-columns>
-</ejs-grid> 
+</ejs-grid>-->
 
 
 <!-- <table>
@@ -32,3 +32,48 @@
     </tr>
   </tbody>
 </table> -->
+
+<!-- Add the filter input right here -->
+<mat-form-field appearance="outline" class="w-100 mb-3">
+  <mat-label>Filter Cities</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. New York" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8 table-responsive">
+  <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+    <!-- City ID Column -->
+    <ng-container matColumnDef="cityId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> City ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.cityId}} </td>
+    </ng-container>
+
+    <!-- City Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+    </ng-container>
+
+    <!-- Country Column -->
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
+      <td mat-cell *matCellDef="let element"> {{element.country?.country}} </td>
+    </ng-container>
+
+    <!-- Last Update Column -->
+    <ng-container matColumnDef="lastUpdate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastUpdate}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- No data row -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="10">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

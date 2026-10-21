@@ -8,7 +8,7 @@
   {{film.specialFeatures}} - {{film.lastUpdate}}
 </div> -->
 
-<ejs-grid [dataSource]='films' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+<!--<ejs-grid [dataSource]='films' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
   [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
   <e-columns>
     <e-column field='filmId' headerText='Film ID' textAlign='Left'></e-column>
@@ -18,7 +18,70 @@
 
     <e-column field='language.name' headerText='Language' textAlign='Left'></e-column>
     <e-column field='specialFeatures' headerText='Features' textAlign='Left'></e-column>
-    
+
     <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
   </e-columns>
-</ejs-grid>
+</ejs-grid> -->
+
+<!-- Add the filter input right here -->
+<mat-form-field appearance="outline" class="w-100 mb-3">
+  <mat-label>Filter Films</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8 table-responsive">
+  <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+    <!-- Film ID Column -->
+    <ng-container matColumnDef="filmId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Film ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.filmId}} </td>
+    </ng-container>
+
+    <!-- Title Column -->
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <!-- Rating Column -->
+    <ng-container matColumnDef="rating">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rating </th>
+      <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+    </ng-container>
+
+    <!-- Language Column -->
+    <ng-container matColumnDef="language">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Language </th>
+      <td mat-cell *matCellDef="let element"> {{element.language?.name}} </td>
+    </ng-container>
+
+    <!-- Special Features Column -->
+    <ng-container matColumnDef="specialFeatures">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Features </th>
+      <td mat-cell *matCellDef="let element"> {{element.specialFeatures}} </td>
+    </ng-container>
+
+    <!-- Last Update Column -->
+    <ng-container matColumnDef="lastUpdate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastUpdate}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- No data row -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="10">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

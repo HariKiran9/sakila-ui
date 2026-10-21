@@ -5,7 +5,7 @@
 
 <a routerLinkActive="active" routerLink="createStaff"> Create Staff </a>
 
-<ejs-grid [dataSource]='staff' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
+<!-- <ejs-grid [dataSource]='staff' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
   [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
   <e-columns>
     <e-column field='staffId' headerText='Rental ID' textAlign='Left'></e-column>
@@ -21,4 +21,98 @@
     <e-column field='address.city.country.country' headerText='Country' textAlign='Left'></e-column>
     <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
   </e-columns>
-</ejs-grid>
+</ejs-grid> -->
+
+
+<!-- Add the filter input right here -->
+<mat-form-field appearance="outline" class="w-100 mb-3">
+  <mat-label>Filter Films</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8 table-responsive">
+  <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+    <!-- Staff ID Column -->
+    <ng-container matColumnDef="staffId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Staff ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.staffId}} </td>
+    </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <!-- Active Column -->
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
+      <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+    </ng-container>
+
+    <!-- User Name Column -->
+    <ng-container matColumnDef="userName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+    </ng-container>
+
+    <!-- Password Column -->
+    <ng-container matColumnDef="password">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Password </th>
+      <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+    </ng-container>
+
+    <!-- Address Column -->
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.address?.address}} </td>
+    </ng-container>
+
+
+    <!-- District Column -->
+    <ng-container matColumnDef="district">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
+      <td mat-cell *matCellDef="let element"> {{element.address?.district}} </td>
+    </ng-container>
+
+    <!-- City Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.address?.city?.city}} </td>
+    </ng-container>
+
+    <!-- Country Column -->
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
+      <td mat-cell *matCellDef="let element"> {{element.address?.city?.country?.country}} </td>
+    </ng-container>
+    <!-- Last Update Column -->
+    <ng-container matColumnDef="lastUpdate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastUpdate}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- No data row -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="10">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

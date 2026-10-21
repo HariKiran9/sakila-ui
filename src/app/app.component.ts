@@ -9,7 +9,7 @@ import { LoginService } from './login/login.service';
 })
 export class AppComponent {
   title = 'sakila-ui';
-  constructor(private router: Router, private loginService: LoginService) {
+  constructor(private router: Router, public loginService: LoginService) {
     console.log('[AppComponent] ..contructor..');
   }
 

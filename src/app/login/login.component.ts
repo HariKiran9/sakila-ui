@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { User } from '../user/user.model';
@@ -11,8 +11,8 @@ import { User } from '../user/user.model';
 })
 export class LoginComponent implements OnInit {
 
-  public loginForm: FormGroup;
-  public user: User;
+  public loginForm?: FormGroup;
+  public user?: User;
 
   constructor(private router: Router, private loginservice: LoginService, private fb: FormBuilder) { }
 
@@ -27,19 +27,19 @@ export class LoginComponent implements OnInit {
 
   checkLogin() {
     var formData: FormData = new FormData();
-    formData.append("name", this.loginForm.get('name').value);
-    formData.append("password", this.loginForm.get('password').value);
+    formData.append("name", this.loginForm?.get('name')?.value);
+    formData.append("password", this.loginForm?.get('password')?.value);
     console.log('FormData : ', formData)
 
     this.loginservice.authenticate(formData).subscribe(response => console.log('response', response), (err) => console.log(err))
     let isLogged = false;
     if (isLogged) {
       this.router.navigate([''])
-      this.loginForm.patchValue({
+      this.loginForm?.patchValue({
         invalidLogin: false
       });
     } else {
-      this.loginForm.patchValue({
+      this.loginForm?.patchValue({
         invalidLogin: true
       });
     }//else

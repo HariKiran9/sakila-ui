@@ -1,64 +1,51 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { Category } from './category.model';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
+  private httpClient = inject(HttpClient);
+  private baseUrl = 'http://localhost:8282/category';
 
-  constructor(private httpClient: HttpClient) {
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
-    }
-    // return an observable with a user-facing error message
-    return throwError('Something bad happened; please try again later.');
-  };
-
-  public getCategory(): Observable<Category[]> {
-    const headers = new HttpHeaders({
+  private getCommonHeaders(): HttpHeaders {
+    // HttpHeaders are immutable; assignment or chaining returns a new instance
+    return new HttpHeaders({
       'Access-Control-Allow-Headers': 'Content-Type',
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'No-Auth': 'true'
     });
-    headers.set('No-Auth', 'true');
-    // var options = new RequestOptions({ headers: headers });
-    return this.httpClient.get<Category[]>('http://localhost:8282/category', { headers: headers }).pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    if (error.error instanceof ErrorEvent) {
+      console.error('Client-side error:', error.error.message);
+    } else {
+      console.error(`Backend returned code ${error.status}, body was:`, error.error);
+    }
+    return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
+
+  public getCategory(): Observable<Category[]> {
+    const headers = this.getCommonHeaders();
+    return this.httpClient.get<Category[]>(this.baseUrl, { headers })
+      .pipe(catchError(this.handleError));
   }
 
   public getCategoryDetailsById(categoryId: number): Observable<Category> {
-    console.log('[category.service] [getCategoryDetailsById] categoryId : ', categoryId);
-    const headers = new HttpHeaders({
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    });
-    headers.set('No-Auth', 'true');
-    return this.httpClient.get<Category>(`http://localhost:8282/category/${categoryId}`, { headers: headers }).pipe(catchError(this.handleError));
+    const headers = this.getCommonHeaders();
+    return this.httpClient.get<Category>(`${this.baseUrl}/${categoryId}`, { headers })
+      .pipe(catchError(this.handleError));
   }
 
-  public updateCategory(category: Category) {
-    console.log('[category.service] [updateCategory] categoryId : ', category.categoryId);
-    const headers = new HttpHeaders({
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    });
-    headers.set('No-Auth', 'true');
-    return this.httpClient.put<Category>(`http://localhost:8282/category/${category.categoryId}`, category, { headers: headers }).pipe(catchError(this.handleError));
+  public updateCategory(category: Category): Observable<Category> {
+    const headers = this.getCommonHeaders();
+    return this.httpClient.put<Category>(`${this.baseUrl}/${category.categoryId}`, category, { headers })
+      .pipe(catchError(this.handleError));
   }
 }

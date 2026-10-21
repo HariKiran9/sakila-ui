@@ -2,15 +2,15 @@ import { Deserializable } from '../deserializable.model';
 import { Address } from '../address/address.model';
 
 export class Staff implements Deserializable {
-    staffId: number;
-    firstName: string;
-    lastName: string;
-    address: Address;
-    email: string;
-    active: number;
-    userName: string;
-    password: string;
-    lastUpdate: string;
+    staffId!: number;
+    firstName!: string;
+    lastName!: string;
+    email!: string;
+    active!: number;
+    userName!: string;
+    password!: string;
+    address!: Address;
+    lastUpdate!: string;
     deserialize(input: any): this {
         // Assign input to our object BEFORE deserialize our cars to prevent already deserialized cars from being overwritten.
         Object.assign(this, input);

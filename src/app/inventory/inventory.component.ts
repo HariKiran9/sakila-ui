@@ -9,7 +9,7 @@ import { Inventory } from './inventory.modal';
 })
 export class InventoryComponent implements OnInit {
 
-  public inventories: Inventory[];
+  public inventories?: Inventory[];
   public filterSettings: Object;
   public initialPage: Object;
   public toolbar: string[];

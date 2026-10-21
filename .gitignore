@@ -102,3 +102,13 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Dependencies
+/node_modules
+
+# Angular cache and build output
+/.angular/
+dist/
+.angular/
+/@angular/
+@angular/

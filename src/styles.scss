@@ -1,6 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/@syncfusion/ej2/material.css";
+@import "../node_modules/@syncfusion/ej2-material-theme/styles/material.css";
 //@import './styles/bootstrap-3.3.7-dist/css/bootstrap.min.css';
 //@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+//@import '@angular/material/prebuilt-themes/purple-green.css';
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Wrap your table and filter in a dark container */
+.mat-elevation-z8 {
+  background-color: #212529;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+/* Make table text and background dark */
+.mat-mdc-table {
+  background-color: #212529 !important;
+}
+
+.mat-mdc-header-cell {
+  background-color: #343a40 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-cell {
+  color: #dee2e6 !important;
+  border-bottom-color: #495057 !important;
+}
+
+.mat-mdc-row:hover {
+  background-color: #2b3035 !important;
+}
+
+/* Style paginator text for dark mode */
+.mat-mdc-paginator {
+  background-color: #212529 !important;
+  color: #ffffff !important;
+}
+
+/* Ensure filter label and input text are visible */
+mat-form-field {
+  width: 100%;
+}

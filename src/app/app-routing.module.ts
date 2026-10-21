@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { HomeComponent } from './home.component';
-import { ActorComponent } from './actor/actor.component';
 import { FilmComponent } from './film/film.component';
 import { CustomerComponent } from './customer/customer.component';
 import { InventoryComponent } from './inventory/inventory.component';
@@ -16,7 +15,7 @@ import { LoginService } from './login/login.service';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'actor', component: ActorComponent, data: { title: 'Actor List' } },
+  { path: 'actor', data: { preload: true }, loadChildren: () => import('./actor/actor.module').then(m => m.ActorModule) },
   { path: 'category', data: { preload: true }, loadChildren: () => import('./category/category.module').then(m => m.CategoryModule) },
   { path: 'city', data: { preload: true }, loadChildren: () => import('./city/city.module').then(m => m.CityModule) },
   { path: 'film', component: FilmComponent, data: { title: 'Film List' } },

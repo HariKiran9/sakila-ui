@@ -9,16 +9,12 @@ import { Rental } from './rental.modal';
 })
 export class RentalComponent implements OnInit {
 
-  public rentals: Rental[];
-  public filterSettings: Object;
-  public initialPage: Object;
-  public toolbar: string[];
+  public rentals?: Rental[];
+  public filterSettings: object = { type: 'Menu' };
+  public initialPage: object = { pageSizes: true, pageCount: 4 };
+  public toolbar: string[] = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
 
-  constructor(private rentalService: RentalService) {
-    this.filterSettings = { type: 'Menu' };
-    this.initialPage = { pageSizes: true, pageCount: 4 };
-    this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
-  }
+  constructor(private rentalService: RentalService) { }
 
   ngOnInit() {
     this.rentalService.getRentals().subscribe(data => this.rentals = data);

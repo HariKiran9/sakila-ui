@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CategoryService } from './category.service';
 import { Category } from './category.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,13 +12,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CreateCategoryComponent implements OnInit {
 
-    public selectedCategory: string;
+    public selectedCategory?: string;
     public categories: Category[] = [];
-    public category: Category;
-    public categoryForm: FormGroup;
-    public nameLengh: number;
-    public pageTitle: string;
-    public validationMessage = {
+    public category?: Category;
+    public categoryForm?: FormGroup;
+    public nameLengh?: number;
+    public pageTitle?: string;
+    public validationMessage: Record<string, Record<string, string>> = {
         'name': {
             'required': 'Category Name is required',
             'minlength': 'Category Name must be greater than 2 characters',
@@ -45,7 +45,7 @@ export class CreateCategoryComponent implements OnInit {
         }
     };
 
-    public formErrors = {
+    public formErrors: Record<string, string> = {
         'name': '',
         'email': '',
         'phone': '',
@@ -97,7 +97,7 @@ export class CreateCategoryComponent implements OnInit {
 
 
         //value Change subscribe
-        this.categoryForm.get('name').valueChanges.subscribe((value: string) => {
+        this.categoryForm.get('name')?.valueChanges.subscribe((value: string) => {
             // this.nameLengh = value.length;            
         });
 
@@ -107,23 +107,23 @@ export class CreateCategoryComponent implements OnInit {
             this.logValidationErrors(this.categoryForm);
         });
         //Listens to Sub set Form
-        this.categoryForm.get('skills').valueChanges.subscribe((value: any) => {
+        this.categoryForm.get('skills')?.valueChanges.subscribe((value: any) => {
             // console.log(JSON.stringify(value));
         });
 
-        this.categoryForm.get('contactPreference').valueChanges.subscribe((data: string) => {
+        this.categoryForm.get('contactPreference')?.valueChanges.subscribe((data: string) => {
             this.onContactPreferenceChange(data);
         });
 
         this.activedRoute.paramMap.subscribe(param => {
-            const categoryId = +param.get('id');
+            const categoryId = Number(param.get('id'));
             if (categoryId) {
                 this.pageTitle = "Edit Category";
                 this.getCategoryDetailsById(categoryId);
             } else {
                 this.pageTitle = "Create Category";
                 this.category = {
-                    'categoryId': null,
+                    'categoryId': '',
                     'name': '',
                     'lastUpdate': '',
                     'email': '',
@@ -139,12 +139,12 @@ export class CreateCategoryComponent implements OnInit {
     }
 
     submit(): void {
-        console.log('[CreateCategoryComponent] [submit] : touched : ', this.categoryForm.touched);
-        console.log('[CreateCategoryComponent] [submit] : value : ', this.categoryForm.value);
-        console.log('[CreateCategoryComponent] [submit] : name.value : ', this.categoryForm.controls.name.value);
-        console.log('[CreateCategoryComponent] [submit] : get(\'name\').value : ', this.categoryForm.get('name').value);
-        console.log('[CreateCategoryComponent] [submit] : dirty : ', this.categoryForm.dirty);
-        console.log('[CreateCategoryComponent] [submit] : name.touched : ', this.categoryForm.controls.name.touched);
+        console.log('[CreateCategoryComponent] [submit] : touched : ', this.categoryForm?.touched);
+        console.log('[CreateCategoryComponent] [submit] : value : ', this.categoryForm?.value);
+        console.log('[CreateCategoryComponent] [submit] : name.value : ', this.categoryForm?.controls.name.value);
+        console.log('[CreateCategoryComponent] [submit] : get(\'name\').value : ', this.categoryForm?.get('name')?.value);
+        console.log('[CreateCategoryComponent] [submit] : dirty : ', this.categoryForm?.dirty);
+        console.log('[CreateCategoryComponent] [submit] : name.touched : ', this.categoryForm?.controls.name.touched);
     }
 
     onLoadData(): void {
@@ -166,7 +166,7 @@ export class CreateCategoryComponent implements OnInit {
     }
 
     patchValue() {
-        this.categoryForm.patchValue({
+        this.categoryForm?.patchValue({
             email: "kiran.chebrolu@gmail.com"
         });
     }
@@ -178,12 +178,15 @@ export class CreateCategoryComponent implements OnInit {
             if (abstractControl instanceof FormGroup) {
                 this.logKeyValuePairs(abstractControl);
             } else {
-                console.log('Key : ', key, ' Value : ', abstractControl.value);
+                console.log('Key : ', key, ' Value : ', abstractControl?.value);
             }
         });
     }
 
-    logValidationErrors(group: FormGroup = this.categoryForm): void {
+    logValidationErrors(group: FormGroup | undefined = this.categoryForm): void {
+        if (!group) {
+            return;
+        }
         Object.keys(group.controls).forEach((key: string) => {
             const abstractControl = group.get(key);
             if (abstractControl instanceof FormGroup) {
@@ -195,7 +198,7 @@ export class CreateCategoryComponent implements OnInit {
                     const messages = this.validationMessage[key];
                     // console.log('Validation Messages : ', messages);
                     // console.log('Validation Messages : ', abstractControl.errors);
-                    for (const erroryKey in abstractControl.errors) {
+                    for (const erroryKey in (abstractControl.errors ?? {})) {
                         if (erroryKey) {
                             this.formErrors[key] += messages[erroryKey] + ' ';
                         }
@@ -207,7 +210,10 @@ export class CreateCategoryComponent implements OnInit {
 
 
     onContactPreferenceChange(seletedValue: string) {
-        const phoneControl = this.categoryForm.get('phone');
+        const phoneControl = this.categoryForm?.get('phone');
+        if (!phoneControl) {
+            return;
+        }
         if (seletedValue === 'phone') {
             phoneControl.setValidators(Validators.required);
         } else {
@@ -227,7 +233,7 @@ export class CreateCategoryComponent implements OnInit {
 
     editCategory(category: Category) {
         console.log('[create.category.component][editCategory] category : ', category);
-        this.categoryForm.patchValue({
+        this.categoryForm?.patchValue({
             categoryId: category.categoryId,
             name: category.name,
             email: 'ch_harikiran@yahoo.com',
@@ -243,20 +249,27 @@ export class CreateCategoryComponent implements OnInit {
     }
 
     update() {
-        console.log('[category.component] [update]', this.category);
+        const category = this.category;
+        if (!category) {
+            return;
+        }
+        console.log('[category.component] [update]', category);
         this.mapFormValuesToCategory();
-        this.categoryService.updateCategory(this.category).subscribe(
+        this.categoryService.updateCategory(category).subscribe(
             () => this.router.navigate(['/category']),
             (err) => console.log(err)
         );
     }
     mapFormValuesToCategory() {
-        console.log('[category.component] [mapFormValuesToCategory] categoryId : ', this.categoryForm.value.categoryId);
-        this.category.name = this.categoryForm.value.name;
-        this.category.categoryId = this.categoryForm.value.categoryId;
+        console.log('[category.component] [mapFormValuesToCategory] categoryId : ', this.categoryForm?.value.categoryId);
+        if (!this.category) {
+            return;
+        }
+        this.category.name = this.categoryForm?.value.name;
+        this.category.categoryId = this.categoryForm?.value.categoryId;
     }
     selectedCat() {
-        console.log("Selected Category : ", this.categoryForm.value.selectedCategory);
+        console.log("Selected Category : ", this.categoryForm?.value.selectedCategory);
     }
 }//class
 
@@ -273,8 +286,8 @@ function emailDomain(control: AbstractControl): { [key: string]: any } | null {
 function matchEmail(group: AbstractControl): { [key: string]: any } | null {
     const emailControl = group.get('email');
     const confirmEmailControl = group.get('confirmEmail');
-    if (emailControl.value === confirmEmailControl.value ||
-        (confirmEmailControl.pristine && confirmEmailControl.value !== '')) {
+    if (emailControl?.value === confirmEmailControl?.value ||
+        (confirmEmailControl?.pristine && confirmEmailControl?.value !== '')) {
         return null;
     } else {
         return { 'emailMismatch': true };

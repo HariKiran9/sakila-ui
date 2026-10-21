@@ -9,16 +9,12 @@ import { PaymentService } from './payment.service';
 })
 export class PaymentComponent implements OnInit {
 
-  public payments: Payment[];
-  public filterSettings: Object;
-  public initialPage: Object;
-  public toolbar: string[];
+  public payments?: Payment[];
+  public filterSettings: object = { type: 'Menu' };
+  public initialPage: object = { pageSizes: true, pageCount: 4 };
+  public toolbar: string[] = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
 
-  constructor(private paymentService: PaymentService) {
-    this.filterSettings = { type: 'Menu' };
-    this.initialPage = { pageSizes: true, pageCount: 4 };
-    this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
-  }
+  constructor(private paymentService: PaymentService) { }
 
   ngOnInit() {
     this.paymentService.getPayments().subscribe(data => this.payments = data);

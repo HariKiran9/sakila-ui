@@ -3,21 +3,28 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { GridModule } from '@syncfusion/ej2-angular-grids';
-import { PageService, SortService, FilterService, GroupService } from '@syncfusion/ej2-angular-grids';
+// Syncfusion Grid module and feature services
+import { 
+  GridModule, 
+  FilterService, 
+  PageService, 
+  SortService, 
+  ToolbarService,
+  GroupService
+} from '@syncfusion/ej2-angular-grids';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ActorModule } from './actor/actor.module';
 import { CategoryModule } from './category/category.module';
 import { CityModule } from './city/city.module';
 import { StaffModule } from './staff/staff.module';
 
 import { AppComponent } from './app.component';
 import { AppTopBarComponent } from './app-top-bar/app-top-bar.component';
-import { ActorComponent } from './actor/actor.component';
 import { FilmComponent } from './film/film.component';
 import { CustomerComponent } from './customer/customer.component';
 import { InventoryComponent } from './inventory/inventory.component';
@@ -30,13 +37,19 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './login/logout.component';
 import { LoginService } from './login/login.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AppTopBarComponent,
-    ActorComponent,
     FilmComponent,
     CustomerComponent,
     InventoryComponent,
@@ -49,6 +62,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
+    ActorModule,
     CategoryModule,
     CityModule,
     StaffModule,
@@ -60,10 +74,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatFormFieldModule
 
   ],
-  providers: [PageService, SortService, FilterService, GroupService, LoginService],
+  providers: [PageService, SortService, FilterService, GroupService, LoginService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

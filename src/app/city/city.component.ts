@@ -1,4 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, inject, effect } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CityService } from './city.service';
 import { City } from './city.model';
 
@@ -7,50 +11,38 @@ import { City } from './city.model';
   templateUrl: './city.component.html',
   styleUrls: ['./city.component.scss']
 })
-export class CityComponent implements OnInit, OnDestroy {
-
-  public cities: City[] = [];
-  public filterSettings: Object;
-  public initialPage: Object;
-  public toolbar: string[];
-
-  public policies = [
-    { "id": "2", "name": "policy002" },
-    { "id": "3", "name": "policy003" },
-    { "id": "4", "name": "policy004" },
-    { "id": "5", "name": "policy005" }
+export class CityComponent implements AfterViewInit {
+  private cityService = inject(CityService);
+  displayedColumns: string[] = [
+    'cityId',
+    'city',
+    'country',
+    'lastUpdate'
   ];
 
-  constructor(private cityService: CityService) {
-    console.log('..contructor..');
+
+  dataSource = new MatTableDataSource<City>([]);
+
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  // Modern Signal approach to handle data fetching reactivity and cleanup
+  cities = toSignal(this.cityService.getCities(), { initialValue: [] });
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.cities();
+    });
+  }
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit() {
-    console.log('..ngOnInit..');
-    this.filterSettings = { type: 'Menu' };
-    this.initialPage = { pageSizes: true, pageCount: 4 };
-    this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
-    this.cityService.getCities2().subscribe(response => this.cities = response);
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public getCities() {
-    console.log('..getCities..');
-    this.cityService.getCities().subscribe(response => {
-      response.forEach(function (value, key) {
-        var city = new City();
-        city.city = value.city;
-        city.cityId = value.cityId;
-        city.lastUpdate = value.lastUpdate;
-        this.cities[key] = city;
-      }, this.cities);
-      console.log('Response : ', response);
-    }), error => console.log('Error downloading the file'), () => console.info('File downloaded successfully');
-  }//getCities
 
-
-
-  public ngOnDestroy() {
-    console.log('..ngOnDestroy..', this.cities);
-  }
 
 }//class

@@ -7,7 +7,11 @@ import { PageService, SortService, FilterService, GroupService } from '@syncfusi
 
 import { CityComponent } from './city.component';
 import { CityRoutingModule } from './city-routing.module';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
     declarations: [CityComponent],
@@ -16,7 +20,12 @@ import { CityRoutingModule } from './city-routing.module';
         CommonModule,
         ReactiveFormsModule,
         GridModule,
-        CityRoutingModule
+        CityRoutingModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatInputModule,
+        MatFormFieldModule
     ],
     providers: [PageService, SortService, FilterService, GroupService]
 })

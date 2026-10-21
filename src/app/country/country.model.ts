@@ -1,7 +1,7 @@
 export class Country {
-    countryId: number;
-    country: string;
-    lastUpdate: string;
+    countryId!: number;
+    country!: string;
+    lastUpdate!: string;
     constructor() {
 
     }

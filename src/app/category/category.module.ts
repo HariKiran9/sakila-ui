@@ -8,6 +8,12 @@ import { CategoryComponent } from './category.component';
 import { CreateCategoryComponent } from './create.category.component';
 import { CategoryRoutingModule } from './category-routing,module';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 @NgModule({
   declarations: [
     CategoryComponent,
@@ -17,7 +23,12 @@ import { CategoryRoutingModule } from './category-routing,module';
     CommonModule,
     ReactiveFormsModule,
     GridModule,
-    CategoryRoutingModule
+    CategoryRoutingModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [PageService, SortService, FilterService, GroupService]
 })

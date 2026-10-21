@@ -1,29 +1,58 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ViewChild, AfterViewInit, inject, effect } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { StaffService } from './staff.service';
 import { Staff } from './staff.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.scss']
 })
-export class StaffComponent implements OnInit {
+export class StaffComponent implements AfterViewInit {
+  private router = inject(Router);
+  private staffService = inject(StaffService);
+  displayedColumns: string[] = [
+    'staffId',
+    'firstName',
+    'lastName',
+    'email',
+    'active',
+    'userName',
+    'password',
+    'address',
+    'district',
+    'city',
+    'country',
+    'lastUpdate'
+  ];
 
-  public staff: Staff[];
-  public filterSettings: Object;
-  public initialPage: Object;
-  public toolbar: string[];
 
-  constructor(private router: Router, private staffService: StaffService) {
-    this.filterSettings = { type: 'Menu' };
-    this.initialPage = { pageSizes: true, pageCount: 4 };
-    this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
+  dataSource = new MatTableDataSource<Staff>([]);
+
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  // Modern Signal approach to handle data fetching reactivity and cleanup
+  staff = toSignal(this.staffService.getStaff(), { initialValue: [] });
+  constructor() {
+    effect(() => {
+      console.log('[StaffComponent]..effect..staff changed:', this.staff());
+      this.dataSource.data = this.staff();
+    });
+  }
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit() {
-    this.staffService.getStaff().subscribe(data => this.staff = data);
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   public create() {

@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, ViewChild, AfterViewInit, inject, effect } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.modal';
 
@@ -8,21 +11,43 @@ import { Customer } from './customer.modal';
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss']
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent implements AfterViewInit {
+  private customerService = inject(CustomerService);
 
-  public customers: Customer[];
-  public filterSettings: Object;
-  public initialPage: Object;
-  public toolbar: string[];
+  displayedColumns: string[] = [
+    'customerId',
+    'firstName',
+    'lastName',
+    'staffFirstName',
+    'staffLastName',
+    'address',
+    'district',
+    'city',
+    'country',
+    'lastUpdate'
+  ];
 
-  constructor(private customerService: CustomerService) {
-    this.filterSettings = { type: 'Menu' };
-    this.initialPage = { pageSizes: true, pageCount: 4 };
-    this.toolbar = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
+  dataSource = new MatTableDataSource<Customer>([]);
+
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  // Modern Signal approach to handle data fetching reactivity and cleanup
+  customers = toSignal(this.customerService.getCustomer(), { initialValue: [] });
+
+  constructor() {
+    effect(() => {
+      this.dataSource.data = this.customers();
+    });
   }
 
-  ngOnInit() {
-    this.customerService.getCustomer().subscribe(data => this.customers = data);
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }
