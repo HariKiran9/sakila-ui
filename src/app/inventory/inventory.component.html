@@ -11,7 +11,7 @@
 
 
 
-
+<!--
 <ejs-grid [dataSource]='inventories' [allowPaging]='true' [allowSorting]='true' [allowFiltering]='true'
   [filterSettings]='filterSettings' [pageSettings]='initialPage' [toolbar]='toolbar'>
   <e-columns>
@@ -22,6 +22,7 @@
     <e-column field='store.staff.firstName' headerText='Staff First Name' textAlign='Left'></e-column>
     <e-column field='store.staff.lastName' headerText='Staff Last Name' textAlign='Left'></e-column>
     <e-column field='store.address.address' headerText='Staff Last Name' textAlign='Left'></e-column>
+
     <e-column field='store.address.district' headerText='District' textAlign='Left'></e-column>
     <e-column field='store.address.city.city' headerText='City' textAlign='Left'></e-column>
     <e-column field='store.address.city.country.country' headerText='Country' textAlign='Left'></e-column>
@@ -29,3 +30,85 @@
     <e-column field='lastUpdate' headerText='Last Upate' textAlign='Left'></e-column>
   </e-columns>
 </ejs-grid>
+-->
+
+<!-- Add the filter input right here -->
+<mat-form-field appearance="outline" class="w-100 mb-3">
+  <mat-label>Filter Customers</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. John" #input>
+</mat-form-field>
+
+<div class="mat-elevation-z8 table-responsive">
+  <table mat-table [dataSource]="dataSource" matSort class="w-100">
+
+    <!-- Customer ID Column -->
+    <ng-container matColumnDef="inventoryId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Inventory ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.inventoryId}} </td>
+    </ng-container>
+
+    <!-- Film Title -->
+    <ng-container matColumnDef="filmtitle">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Movie Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.film?.title}} </td>
+    </ng-container>
+
+    <!-- Film Description -->
+    <ng-container matColumnDef="filmdescription">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Staff Last Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.film?.description}} </td>
+    </ng-container>
+
+    <!-- Staff First Name Column -->
+    <ng-container matColumnDef="staffFirstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Staff First Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.store?.staff?.firstName}} </td>
+    </ng-container>
+
+    <!-- Staff Last Name Column -->
+    <ng-container matColumnDef="staffLastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Staff Last Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.store?.staff?.lastName}} </td>
+    </ng-container>
+
+    <!-- Address Column -->
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.store?.address?.address}} </td>
+    </ng-container>
+
+        <!-- District Column -->
+    <ng-container matColumnDef="district">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
+      <td mat-cell *matCellDef="let element"> {{element.store?.address?.district}} </td>
+    </ng-container>
+
+    <!-- City Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.store?.address?.city?.city}} </td>
+    </ng-container>
+
+    <!-- Country Column -->
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
+      <td mat-cell *matCellDef="let element"> {{element.store?.address?.city?.country?.country}} </td>
+    </ng-container>
+
+    <!-- Last Update Column -->
+    <ng-container matColumnDef="lastUpdate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Update </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastUpdate}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- No data row -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="10">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>
